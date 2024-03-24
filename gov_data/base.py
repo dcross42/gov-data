@@ -11,7 +11,7 @@ class BaseGovDataAPI(ABC):
     """ Base class for interacting with Government data APIs """
     def __init__(self, api_key : GovDataAPIKey):
         if api_key is None:
-            raise ValueError("API key must be provided")      
+            raise ValueError("API key must be provided")
         self.api_key = api_key
 
     @property
