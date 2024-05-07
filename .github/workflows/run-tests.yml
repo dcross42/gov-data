@@ -15,7 +15,6 @@ jobs:
                 sudo apt update
                 sudo apt install pipx
                 pipx ensurepath
-                sudo pipx ensurepath --global
                 pipx install poetry==1.8.0
             - name: Install dependencies
               run: poetry install
