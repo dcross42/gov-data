@@ -164,7 +164,8 @@ class FederalReserveAPI(BaseGovDataAPI):
     def build_url(self):
         """ Build the URL to interact with the API """
         compiled_url = f"{self.base_url}/{self.endpoint}"
-        compiled_url = f"{compiled_url}?api_key={self.api_key}&file_type={self.file_type}"
+        compiled_url = f"{compiled_url}?api_key={self.api_key.get_api_key()}"
+        compiled_url = f"{compiled_url}&file_type={self.file_type}"
         for key, value in self.params.items():
             compiled_url += f"&{key}={value}"
         return compiled_url
