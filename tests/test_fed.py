@@ -19,12 +19,6 @@ def mock_api_key():
     """ Fake API key for testing """
     return GovDataAPIKey(api_name='test', api_key="test_API_key")
 
-# Set up fixtures to mock the API
-@pytest.fixture
-def mock_category_endpoint(monkeypatch):
-    """ Mock the category endpoint """
-    return "category"
-
 class TestFederalReserveAPI:
     """ Test the Federal Reserve API class """
     # TODO: Add tests for every endpoint
