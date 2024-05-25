@@ -20,9 +20,9 @@ class BaseGovDataAPI(ABC):
         """ Base URL for the API """
 
     @abstractmethod
-    def build_url(self, **kwargs):
+    def build_url(self):
         """ Build the URL to interact with the API """
 
     @abstractmethod
-    def get_data(self, **kwargs):
+    def get_data(self):
         """ Get data from the API """
