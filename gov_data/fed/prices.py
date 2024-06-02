@@ -3,7 +3,7 @@
 import pandas as pd
 
 from ..authentication import GovDataAPIKey
-from .fed import FederalReserveAPI
+from .base import FederalReserveAPI
 
 
 class FederalReserveCPI(FederalReserveAPI):

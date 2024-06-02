@@ -5,7 +5,7 @@ Test the Fed API Connector
 import pytest
 
 from gov_data.authentication import GovDataAPIKey
-from gov_data.fed.fed import FederalReserveAPI
+from gov_data.fed.base import FederalReserveAPI
 
 
 # From pytest docs: prevent requests from remote operations
