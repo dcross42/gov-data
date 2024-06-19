@@ -6,6 +6,7 @@ import pytest
 
 from gov_data.authentication import GovDataAPIKey
 from gov_data.fed.base import FederalReserveAPI
+from gov_data.fed.prices import FederalReserveCPI
 
 
 # From pytest docs: prevent requests from remote operations
@@ -45,3 +46,27 @@ class TestFederalReserveAPI:
         url = client.build_url()
         ans = "https://api.stlouisfed.org/fred/category?api_key=test_API_key&file_type=json&category_id=125"
         assert url == ans
+
+    def test_fed_api_cpi_init(self, mock_api_key):
+        """ Test the Federal Reserve API class initialization"""
+        client = FederalReserveCPI(
+            api_key=mock_api_key,
+            params={},
+        )
+        assert client.observations_client.endpoint == "series/observations"
+        assert client.observations_client.params == {"series_id": "CPIAUCSL"}
+        assert client.observations_client.file_type == "json"
+        assert client.observations_client.timeout == 5
+
+        assert client.information_client.endpoint == "series"
+        assert client.information_client.params == {"series_id": "CPIAUCSL"}
+        assert client.information_client.file_type == "json"
+        assert client.information_client.timeout == 5
+
+        assert client.release_client.endpoint == "series/release"
+        assert client.release_client.params == {"series_id": "CPIAUCSL"}
+        assert client.release_client.file_type == "json"
+        assert client.release_client.timeout == 5
+
+        assert client.include_series_info is False
+        assert client.include_series_release is False

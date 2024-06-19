@@ -1,6 +1,9 @@
 """
 Class to handle requests to Federal Reserve API (FRED)
 """
+import time
+
+import pandas as pd
 import requests
 
 from ..authentication import GovDataAPIKey
@@ -178,3 +181,104 @@ class FederalReserveAPI(BaseGovDataAPI):
             error = f"Request failed with status code: {response.status_code}: {response.reason}"
             raise ValueError(error)
         return response.json()
+
+class FederalReserveSeriesObservations(FederalReserveAPI):
+    """ Make requests to Federal Reserve API for Series Observations """
+    def __init__(
+            self,
+            api_key: GovDataAPIKey,
+            params : dict,
+            file_type : str = "json",
+            timeout : int = 5):
+        if 'series_id' not in params:
+            raise ValueError("Series ID is required")
+        super().__init__(api_key, 'series/observations', params, file_type, timeout)
+
+    def get_dataframe(self) -> pd.DataFrame:
+        """ Return a DataFrame with the CPI data """
+        data = self.get_data()
+        df = pd.DataFrame(data['observations'])
+        df['date'] = pd.to_datetime(df['date'])
+        df['value'] = df['value'].astype(float)
+        df['units'] = data['units']
+        return df
+
+class FederalReserveSeriesInformation(FederalReserveAPI):
+    """ Make requests to Federal Reserve API for Series Information """
+    def __init__(
+            self,
+            api_key: GovDataAPIKey,
+            params : dict,
+            file_type : str = "json",
+            timeout : int = 5):
+        if 'series_id' not in params:
+            raise ValueError("Series ID is required")
+        super().__init__(api_key, 'series', params, file_type, timeout) 
+
+    def get_data(self):
+        """ Get data from the API """
+        url = self.build_url()
+        response = requests.get(url, timeout=self.timeout)
+        if response.status_code != 200:
+            error = f"Request failed with status code: {response.status_code}: {response.reason}"
+            raise ValueError(error)
+        return response.json()['series']
+
+class FederalReserveSeriesRelease(FederalReserveAPI):
+    """ Make requests to Federal Reserve API for Series Release """
+    def __init__(
+            self,
+            api_key: GovDataAPIKey,
+            params : dict,
+            file_type : str = "json",
+            timeout : int = 5):
+        if 'series_id' not in params:
+            raise ValueError("Series ID is required")
+        super().__init__(api_key, 'series/release', params, file_type, timeout)
+
+    def get_data(self):
+        """ Get data from the API """
+        url = self.build_url()
+        response = requests.get(url, timeout=self.timeout)
+        if response.status_code != 200:
+            error = f"Request failed with status code: {response.status_code}: {response.reason}"
+            raise ValueError(error)
+        return response.json()['release']
+
+class FederalReserveSeries():
+    """ Get data about a series from the FRED API"""
+    def __init__(
+            self,
+            api_key: GovDataAPIKey,
+            series_id: str,
+            params : dict,
+            include_series_info : bool = False,
+            include_series_release : bool = False,
+            file_type : str = "json",
+            timeout : int = 5):
+        if 'series_id' not in params and series_id is None:
+            raise ValueError("Series ID is required")
+        if 'series_id' not in params:
+            params['series_id'] = series_id
+        self.include_series_info = include_series_info
+        self.include_series_release = include_series_release
+        self.observations_client = FederalReserveSeriesObservations(
+            api_key, params, file_type, timeout
+        )
+        self.information_client = FederalReserveSeriesInformation(
+            api_key, params, file_type, timeout
+        )
+        self.release_client = FederalReserveSeriesRelease(
+            api_key, params, file_type, timeout
+        )
+
+    def get_data(self) -> pd.DataFrame:
+        """ Return a dictionary with the CPI data """
+        data = self.observations_client.get_dataframe()
+        if self.include_series_info:
+            time.sleep(2) # Sleep the program to avoid rate limiting
+            data.attrs['series_info'] = self.information_client.get_data()
+        if self.include_series_release:
+            time.sleep(2) # Sleep the program to avoid rate limiting
+            data.attrs['series_release'] = self.release_client.get_data()
+        return data
