@@ -1,4 +1,4 @@
-""" Data on Interest Rates from FED API """
+""" Pull data relating to National Accounts from FED API"""
 
 import pandas as pd
 
