@@ -6,6 +6,9 @@ import pytest
 
 from gov_data.authentication import GovDataAPIKey
 from gov_data.fed.base import FederalReserveAPI
+from gov_data.fed.employment import FederalReserveUnemployment
+from gov_data.fed.interest_rates import FederalReserveFederalFundsRate
+from gov_data.fed.national_accounts import FederalReserveGDP
 from gov_data.fed.prices import FederalReserveCPI
 
 
@@ -65,6 +68,78 @@ class TestFederalReserveAPI:
 
         assert client.release_client.endpoint == "series/release"
         assert client.release_client.params == {"series_id": "CPIAUCSL"}
+        assert client.release_client.file_type == "json"
+        assert client.release_client.timeout == 5
+
+        assert client.include_series_info is False
+        assert client.include_series_release is False
+
+    def test_fed_api_unemployment_init(self, mock_api_key):
+        """ Test the Federal Reserve API class initialization"""
+        client = FederalReserveUnemployment(
+            api_key=mock_api_key,
+            params={},
+        )
+        assert client.observations_client.endpoint == "series/observations"
+        assert client.observations_client.params == {"series_id": "UNRATE"}
+        assert client.observations_client.file_type == "json"
+        assert client.observations_client.timeout == 5
+
+        assert client.information_client.endpoint == "series"
+        assert client.information_client.params == {"series_id": "UNRATE"}
+        assert client.information_client.file_type == "json"
+        assert client.information_client.timeout == 5
+
+        assert client.release_client.endpoint == "series/release"
+        assert client.release_client.params == {"series_id": "UNRATE"}
+        assert client.release_client.file_type == "json"
+        assert client.release_client.timeout == 5
+
+        assert client.include_series_info is False
+        assert client.include_series_release is False
+
+    def test_fed_api_fed_funds_init(self, mock_api_key):
+        """ Test the Federal Reserve API class initialization"""
+        client = FederalReserveFederalFundsRate(
+            api_key=mock_api_key,
+            params={},
+        )
+        assert client.observations_client.endpoint == "series/observations"
+        assert client.observations_client.params == {"series_id": "FEDFUNDS"}
+        assert client.observations_client.file_type == "json"
+        assert client.observations_client.timeout == 5
+
+        assert client.information_client.endpoint == "series"
+        assert client.information_client.params == {"series_id": "FEDFUNDS"}
+        assert client.information_client.file_type == "json"
+        assert client.information_client.timeout == 5
+
+        assert client.release_client.endpoint == "series/release"
+        assert client.release_client.params == {"series_id": "FEDFUNDS"}
+        assert client.release_client.file_type == "json"
+        assert client.release_client.timeout == 5
+
+        assert client.include_series_info is False
+        assert client.include_series_release is False
+
+    def test_fed_api_gdp_init(self, mock_api_key):
+        """ Test the Federal Reserve API class initialization"""
+        client = FederalReserveGDP(
+            api_key=mock_api_key,
+            params={},
+        )
+        assert client.observations_client.endpoint == "series/observations"
+        assert client.observations_client.params == {"series_id": "GDP"}
+        assert client.observations_client.file_type == "json"
+        assert client.observations_client.timeout == 5
+
+        assert client.information_client.endpoint == "series"
+        assert client.information_client.params == {"series_id": "GDP"}
+        assert client.information_client.file_type == "json"
+        assert client.information_client.timeout == 5
+
+        assert client.release_client.endpoint == "series/release"
+        assert client.release_client.params == {"series_id": "GDP"}
         assert client.release_client.file_type == "json"
         assert client.release_client.timeout == 5
 
