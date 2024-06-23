@@ -46,6 +46,7 @@ class FederalReserveM2(FederalReserveSeries):
 
 class FederalReserveOvernightReserveRepurchaseAgreements(FederalReserveSeries):
     """ Make requests to Federal Reserve Observations API for Overnight Reverse Repurchase Agreements data """
+
     def __init__(
             self,
             api_key: GovDataAPIKey,
