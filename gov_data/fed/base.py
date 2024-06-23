@@ -222,7 +222,7 @@ class FederalReserveSeriesInformation(FederalReserveAPI):
         if response.status_code != 200:
             error = f"Request failed with status code: {response.status_code}: {response.reason}"
             raise ValueError(error)
-        return response.json()['series']
+        return response.json()['seriess']
 
 class FederalReserveSeriesRelease(FederalReserveAPI):
     """ Make requests to Federal Reserve API for Series Release """
@@ -243,7 +243,7 @@ class FederalReserveSeriesRelease(FederalReserveAPI):
         if response.status_code != 200:
             error = f"Request failed with status code: {response.status_code}: {response.reason}"
             raise ValueError(error)
-        return response.json()['release']
+        return response.json()['releases']
 
 class FederalReserveSeries():
     """ Get data about a series from the FRED API"""
