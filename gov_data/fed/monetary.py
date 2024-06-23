@@ -1,11 +1,11 @@
-""" Pull data relating to National Accounts from FED API"""
+""" Classes to pull Monetary data from the Federal Reserve API. """
+
 from ..authentication import GovDataAPIKey
 from .base import FederalReserveSeries
 
 
-class FederalReserveGDP(FederalReserveSeries):
-    """ Make requests to Federal Reserve Observations API for GDP data """
-
+class FederalReserveTotalAssets(FederalReserveSeries):
+    """ Make requests to Federal Reserve Observations API for Total Assets data """
     def __init__(
             self,
             api_key: GovDataAPIKey,
@@ -16,7 +16,7 @@ class FederalReserveGDP(FederalReserveSeries):
             timeout : int = 5):
         super().__init__(
             api_key,
-            'GDP',
+            'WALCL',
             params,
             include_series_info,
             include_series_release,
@@ -24,9 +24,8 @@ class FederalReserveGDP(FederalReserveSeries):
             timeout
         )
 
-class FederalReserveFederalDebt(FederalReserveSeries):
-    """ Make requests to Federal Reserve Observations API for Federal Government debt data """
-
+class FederalReserveM2(FederalReserveSeries):
+    """ Make requests to Federal Reserve Observations API for M2 data """
     def __init__(
             self,
             api_key: GovDataAPIKey,
@@ -37,7 +36,7 @@ class FederalReserveFederalDebt(FederalReserveSeries):
             timeout : int = 5):
         super().__init__(
             api_key,
-            'GFDEBTN',
+            'M2SL',
             params,
             include_series_info,
             include_series_release,
@@ -45,9 +44,8 @@ class FederalReserveFederalDebt(FederalReserveSeries):
             timeout
         )
 
-class FederalReserveFederalDeficit(FederalReserveSeries):
-    """ Make requests to Federal Reserve Observations API for Federal Deficit data """
-
+class FederalReserveOvernightReserveRepurchaseAgreements(FederalReserveSeries):
+    """ Make requests to Federal Reserve Observations API for Overnight Reverse Repurchase Agreements data """
     def __init__(
             self,
             api_key: GovDataAPIKey,
@@ -58,28 +56,7 @@ class FederalReserveFederalDeficit(FederalReserveSeries):
             timeout : int = 5):
         super().__init__(
             api_key,
-            'FYFSD',
-            params,
-            include_series_info,
-            include_series_release,
-            file_type,
-            timeout
-        )
-
-class FederalReserveDebtToGDPRatio(FederalReserveSeries):
-    """ Make requests to Federal Reserve Observations API for Federal Debt as % of GDP data """
-
-    def __init__(
-            self,
-            api_key: GovDataAPIKey,
-            params : dict,
-            include_series_info: bool = False,
-            include_series_release: bool = False,
-            file_type : str = "json",
-            timeout : int = 5):
-        super().__init__(
-            api_key,
-            'GFDEGDQ188S',
+            'RRPONTSYD',
             params,
             include_series_info,
             include_series_release,
