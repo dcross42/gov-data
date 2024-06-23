@@ -1,7 +1,5 @@
 # GovData
 
-https://github.com/dcross42/gov-data/actions/workflows/Tests/badge.svg
-
 This package implements handlers for various US Government APIs provided that the user has a registered API key for the API if required. 
 
 So far, only the Federal Reserve's FRED API has been implemented. 
