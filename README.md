@@ -92,9 +92,13 @@ The mid-level APIs are `FederalReserveSeries`, `FederalReserveSeriesObservations
 
 `FederalReserveSeriesRelease` pulls the metadata about the release of the data, which is the specific update to the data, typically on a monthly or quarterly cadence depending on the data.
 
+The parameters to these classes follow the same paradigm as the high-level API.
+
 #### Low-Level API
 
 All of the above APIs rely on the `FederalReserveAPI` which inherits from the `BaseGovDataAPI`. This class wraps calls to the FRED API. The mid-level and high-level APIs are currently focussed on series data. If you want to pull other kinds of information from FRED, use this class to call all the different endpoints of the FRED API.
+
+To see a full list of FRED endpoints, you can either go to the FRED API docs or see the list in the base.py file in the fed folder.
 
 ## Credit
 
