@@ -80,8 +80,21 @@ df will be a pandas DataFrame. The metadata about the series and the most recent
 
 #### Mid-Level API
 
+The High-Level APIs rely on calls to mid-Level APIs.
+
+The mid-level APIs are `FederalReserveSeries`, `FederalReserveSeriesObservations`, `FederalReserveSeriesInformation`, `FederalReserveSeriesRelease`. 
+
+`FederalReserveSeries` takes a `series_id`, `params`, and two flags to return observations, series information, and series releases from the FRED API. The class allows any arbitrary `series_id` that exists in the FRED system. It relies on the other 3 classes to build the dataset that is returned.
+
+`FederalReserveSeriesObservations` pulls the actual observations data from the FRED system. If you just want the data from a series, this class will return it.
+
+`FederalReserveSeriesInformation` pulls the metadata about the data like the name of the dataset, a description, etc.
+
+`FederalReserveSeriesRelease` pulls the metadata about the release of the data, which is the specific update to the data, typically on a monthly or quarterly cadence depending on the data.
+
 #### Low-Level API
 
+All of the above APIs rely on the `FederalReserveAPI` which inherits from the `BaseGovDataAPI`. This class wraps calls to the FRED API. The mid-level and high-level APIs are currently focussed on series data. If you want to pull other kinds of information from FRED, use this class to call all the different endpoints of the FRED API.
 
 ## Credit
 
